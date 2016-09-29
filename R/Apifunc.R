@@ -1,3 +1,4 @@
+library(httr)
 #' Geocoding response from Google Map Api 
 #'
 #' \code{geo_api function} returns the geocoding responses of it's argument(given adress).
@@ -37,4 +38,9 @@ data<-content(output)
 return(data)
 }
 
-
+geo_api("???")
+geo_api("1600+Amphitheatre+Parkway,+Mountain+View,+CA")
+geo_api("Paris,France")
+geo_api("Paris,France")$results[[1]]$geometry$bounds$southwest$lat
+geo_api("Paris,France")$results[[1]]$geometry$bounds$southwest$lng
+geo_api("Paris,France")$results[[1]]$formatted_address
