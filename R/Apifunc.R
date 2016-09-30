@@ -35,12 +35,18 @@ http_status(output)
 
 data<-content(output)
 
-return(data)
+latitude<-data$results[[1]]$geometry$location$lat
+
+longitude<-data$results[[1]]$geometry$location$lng
+
+location<-data$results[[1]]$formatted_address
+
+final<-data.frame(latitude,longitude,location)
+
+return(final)
 }
 
-geo_api("???")
-geo_api("1600+Amphitheatre+Parkway,+Mountain+View,+CA")
 geo_api("Paris,France")
-geo_api("Paris,France")$results[[1]]$geometry$bounds$southwest$lat
-geo_api("Paris,France")$results[[1]]$geometry$bounds$southwest$lng
-geo_api("Paris,France")$results[[1]]$formatted_address
+
+geo_api("1600+Amphitheatre+Parkway,+Mountain+View,+CA")
+
