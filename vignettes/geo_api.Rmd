@@ -1,0 +1,80 @@
+---
+title: "Google Map Api"
+author: "Aqeel Ahmed and Merhawi Tewolde"
+date: "September18, 2016"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{GOOGLE MAP API}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+ 
+ 
+
+# RwebApi package
+
+  This package is developed to connect to the google map Api, where access to the geocoding of a given adress is retrieved.    
+
+## geo_api Function
+
+ This function took an adress as inpute, adress can be speciefed by a name of a place or any other known adress of a place. This function then gets the full content of the given adress, including the latitude and longitude of it from the google map database. 
+  The code involved in excution of this function is as follows:
+
+```{r}
+
+  geo_api<-function(address){
+  
+
+  quary<-"https://maps.googleapis.com/maps/api/geocode/json"
+  address<- gsub("\\[]","\\+", address)
+  mykey="AIzaSyAkdy_DvV2xo3CkHKpVmgNfCpM7hxmsAEw"
+  totalurl<-paste(quary,"?address=",address,"&key",mykey, sep = "")
+
+
+output<-GET(url=totalurl)
+
+http_status(output)
+
+data<-content(output)
+
+return(data)
+}
+
+```
+
+
+
+### Unit Test
+
+  We compare a well known of longitude and latitude of a given place with the output of the longitude and latitude of the geo?api function, and one invalid adress name (with special characters).
+  here is the code for the unite test:
+ 
+```
+  library(testthat)
+library(RWebApi)
+
+test_that("Checking if the output is same",{
+  expect_that((geo_api("Paris,France")$results[[1]]$geometry$location$lat),equals(48.856614))
+  expect_that(geo_api("Paris,France")$results[[1]]$geometry$location$lng,equals(2.3522219))
+  expect_that(geo_api("Paris,France")$results[[1]]$formatted_address,equals("Paris, France"))
+  
+}
+)
+
+test_that("Test for Invalid Input",{
+  
+  expect_that(geo_api("???")$status,equals("ZERO_RESULTS"))
+  
+}
+)
+```
+
+
+#### More Examples
+
+geo_api("1600+Amphitheatre+Parkway,+Mountain+View,+CA")
+
+geo_api("Paris,France")
+
+
