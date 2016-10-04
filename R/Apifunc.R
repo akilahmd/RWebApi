@@ -45,8 +45,3 @@ final<-data.frame(latitude,longitude,location)
 
 return(final)
 }
-
-geo_api("Paris,France")
-
-geo_api("1600+Amphitheatre+Parkway,+Mountain+View,+CA")
-

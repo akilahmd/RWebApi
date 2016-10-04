@@ -14,8 +14,16 @@ output<-GET(url=totalurl)
 http_status(output)
 
 data<-content(output)
+latitude<-data$results[[1]]$geometry$location$lat
 
-return(data)
+longitude<-data$results[[1]]$geometry$location$lng
+
+location<-data$results[[1]]$formatted_address
+
+final<-data.frame(latitude,longitude,location)
+
+return(final)
+
 }
 
 

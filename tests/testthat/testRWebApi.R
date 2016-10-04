@@ -2,17 +2,13 @@ library(testthat)
 library(RWebApi)
 
 test_that("Checking if the output is same",{
-  expect_that((geo_api("Paris,France")$results[[1]]$geometry$location$lat),equals(48.856614))
-  expect_that(geo_api("Paris,France")$results[[1]]$geometry$location$lng,equals(2.3522219))
-  expect_that(geo_api("Paris,France")$results[[1]]$formatted_address,equals("Paris, France"))
+  expect_that(geo_api("Paris,France")$latitude,equals(48.856614))
+  expect_that(geo_api("Paris,France")$longitude,equals(2.3522219))
+  expect_that(geo_api("Lahore")$latitude,equals(31.5546061))
+  expect_that(geo_api("Lahore")$longitude,equals(74.3571581))
+  expect_that(geo_api("Asmara")$latitude,equals(15.3228767))
+  expect_that(geo_api("Asmara")$longitude,equals(38.9250517))
   
 }
 )
 
-test_that("Test for Invalid Input",{
-  
-  expect_that(geo_api("???")$status,equals("ZERO_RESULTS"))
-  
-}
-)
-  

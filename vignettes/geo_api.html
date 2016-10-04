@@ -93,8 +93,16 @@ output&lt;-<span class="kw">GET</span>(<span class="dt">url=</span>totalurl)
 <span class="kw">http_status</span>(output)
 
 data&lt;-<span class="kw">content</span>(output)
+latitude&lt;-data$results[[<span class="dv">1</span>]]$geometry$location$lat
 
-<span class="kw">return</span>(data)
+longitude&lt;-data$results[[<span class="dv">1</span>]]$geometry$location$lng
+
+location&lt;-data$results[[<span class="dv">1</span>]]$formatted_address
+
+final&lt;-<span class="kw">data.frame</span>(latitude,longitude,location)
+
+<span class="kw">return</span>(final)
+
 }</code></pre></div>
 <div id="unit-test" class="section level3">
 <h3>Unit Test</h3>
@@ -103,19 +111,16 @@ data&lt;-<span class="kw">content</span>(output)
 library(RWebApi)
 
 test_that(&quot;Checking if the output is same&quot;,{
-  expect_that((geo_api(&quot;Paris,France&quot;)$results[[1]]$geometry$location$lat),equals(48.856614))
-  expect_that(geo_api(&quot;Paris,France&quot;)$results[[1]]$geometry$location$lng,equals(2.3522219))
-  expect_that(geo_api(&quot;Paris,France&quot;)$results[[1]]$formatted_address,equals(&quot;Paris, France&quot;))
+  expect_that(geo_api(&quot;Paris,France&quot;)$latitude,equals(48.856614))
+  expect_that(geo_api(&quot;Paris,France&quot;)$longitude,equals(2.3522219))
+  expect_that(geo_api(&quot;Lahore&quot;)$latitude,equals(31.5546061))
+  expect_that(geo_api(&quot;Lahore&quot;)$longitude,equals(74.3571581))
+  expect_that(geo_api(&quot;Asmara&quot;)$latitude,equals(15.3228767))
+  expect_that(geo_api(&quot;Asmara&quot;)$longitude,equals(38.9250517))
   
 }
 )
-
-test_that(&quot;Test for Invalid Input&quot;,{
-  
-  expect_that(geo_api(&quot;???&quot;)$status,equals(&quot;ZERO_RESULTS&quot;))
-  
-}
-)</code></pre>
+</code></pre>
 <div id="more-examples" class="section level4">
 <h4>More Examples</h4>
 <p>geo_api(“1600+Amphitheatre+Parkway,+Mountain+View,+CA”)</p>
